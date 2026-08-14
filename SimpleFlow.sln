@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37516.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFlow", "SimpleFlow\SimpleFlow.csproj", "{382172C9-7679-4DDA-9AD6-2A999DB31B2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D25B5779-20C6-4906-8957-064AAC8EE7FA}
+	EndGlobalSection
+EndGlobal

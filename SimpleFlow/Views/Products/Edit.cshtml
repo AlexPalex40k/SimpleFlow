@@ -1,0 +1,5 @@
+@model Product
+@{ ViewData["Title"] = "Edit product"; }
+<div class="page-header"><div><div class="page-kicker">Products / Edit</div><h1 class="page-title">@Model.Name</h1><p class="page-subtitle">SKU @Model.Sku · Update catalog information.</p></div></div>
+<form asp-action="Edit" asp-route-id="@Model.Id" class="erp-card form-card"><input asp-for="Id" type="hidden" /><partial name="_Form" model="Model" /><div class="form-actions"><button class="btn btn-primary">Save changes</button><a asp-action="Index" class="btn btn-light">Cancel</a></div></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

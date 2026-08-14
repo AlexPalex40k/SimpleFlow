@@ -1,0 +1,5 @@
+@model Customer
+@{ ViewData["Title"] = "New customer"; }
+<div class="page-header"><div><div class="page-kicker">Customers / Create</div><h1 class="page-title">New customer</h1><p class="page-subtitle">Add a customer to your master data.</p></div></div>
+<form asp-action="Create" class="erp-card form-card"><partial name="_Form" model="Model" /><div class="form-actions"><button class="btn btn-primary">Save customer</button><a asp-action="Index" class="btn btn-light">Cancel</a></div></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

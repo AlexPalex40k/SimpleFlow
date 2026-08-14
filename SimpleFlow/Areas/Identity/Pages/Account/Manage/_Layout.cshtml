@@ -1,0 +1,24 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Account settings</div>
+        <h1 class="page-title">Manage your account</h1>
+        <p class="page-subtitle">Update your profile, security, and personal data.</p>
+    </div>
+</div>
+
+<div class="account-layout">
+    <aside class="erp-card account-nav-card" aria-label="Account settings navigation">
+        <partial name="_ManageNav" />
+    </aside>
+    <section class="erp-card account-content">
+        @RenderBody()
+    </section>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

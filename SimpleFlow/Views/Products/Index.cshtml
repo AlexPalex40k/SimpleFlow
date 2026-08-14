@@ -1,0 +1,8 @@
+@model IEnumerable<Product>
+@{ ViewData["Title"] = "Products"; var count = Model.Count(); }
+<div class="page-header"><div><div class="page-kicker">Master data</div><h1 class="page-title">Products</h1><p class="page-subtitle">Materials, equipment, and billable catalog items.</p></div><a asp-action="Create" class="btn btn-primary">+ New product</a></div>
+<section class="erp-card"><div class="toolbar"><span class="toolbar-meta"><strong>@count</strong> @(count == 1 ? "product" : "products")</span><span class="toolbar-meta">Sorted by name</span></div>
+@if (count == 0) { <div class="empty-state"><h2 class="h5">No products yet</h2><p>Create the first catalog item to get started.</p><a asp-action="Create" class="btn btn-primary btn-sm">New product</a></div> }
+else { <div class="table-responsive"><table class="table erp-table"><thead><tr><th>SKU</th><th>Name</th><th>Unit</th><th class="text-end">Unit price</th><th>Status</th><th class="text-end">Actions</th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td><span class="record-code">@item.Sku</span></td><td><span class="record-title">@item.Name</span></td><td>@item.UnitOfMeasure</td><td class="text-end">@item.UnitPrice.ToString("N2")</td><td><span class="status-badge @(item.IsActive ? "status-active" : "status-inactive")">@(item.IsActive ? "Active" : "Inactive")</span></td><td class="text-end"><span class="row-actions"><a asp-action="Edit" asp-route-id="@item.Id" class="row-action">Edit</a><a asp-action="Delete" asp-route-id="@item.Id" class="row-action danger">Delete</a></span></td></tr> }
+</tbody></table></div> }</section>

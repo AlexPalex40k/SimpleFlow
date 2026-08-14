@@ -1,0 +1,53 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string name) => string.Equals(controller, name, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · SimpleFlow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SimpleFlow.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar" aria-label="Main navigation">
+            <div class="sidebar-brand">
+                <a asp-controller="Home" asp-action="Index" class="brand-link"><span class="brand-mark">S</span><span><strong>SimpleFlow</strong><small>Construction ERP</small></span></a>
+                <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar" aria-label="Close"></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">Workspace</div>
+                <a asp-controller="Home" asp-action="Index" class="sidebar-link @Active("Home")"><span class="nav-icon">▦</span><span>Dashboard</span></a>
+                <div class="nav-section">Master data</div>
+                <a asp-controller="Customers" asp-action="Index" class="sidebar-link @Active("Customers")"><span class="nav-icon">◎</span><span>Customers</span></a>
+                <a asp-controller="Products" asp-action="Index" class="sidebar-link @Active("Products")"><span class="nav-icon">◇</span><span>Products</span></a>
+                <a asp-controller="Warehouses" asp-action="Index" class="sidebar-link @Active("Warehouses")"><span class="nav-icon">⌂</span><span>Warehouses</span></a>
+                <div class="nav-section">Construction</div>
+                <span class="sidebar-link disabled"><span class="nav-icon">▤</span><span>Projects</span><small>Soon</small></span>
+                <span class="sidebar-link disabled"><span class="nav-icon">↗</span><span>Job costs</span><small>Soon</small></span>
+            </nav>
+            <div class="sidebar-footer"><span class="status-dot"></span><span><strong>System online</strong><small>SimpleFlow v1.0</small></span></div>
+        </aside>
+        <div class="app-main">
+            <header class="topbar">
+                <button class="icon-button d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Open navigation">☰</button>
+                <div class="topbar-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search SimpleFlow" aria-label="Search" /><kbd>Ctrl K</kbd></div>
+                <div class="topbar-actions">
+                    <button class="icon-button" type="button" aria-label="Notifications">♢<span class="notification-dot"></span></button>
+                    <partial name="_LoginPartial" />
+                </div>
+            </header>
+            <main class="content-area">@RenderBody()</main>
+            <footer class="app-footer">© 2026 SimpleFlow · Construction ERP</footer>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
