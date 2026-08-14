@@ -1,8 +1,9 @@
 @model Customer
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="TaxNumber" class="form-label"></label><input asp-for="TaxNumber" class="form-control" /><span asp-validation-for="TaxNumber" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="Phone" class="form-label"></label><input asp-for="Phone" class="form-control" /><span asp-validation-for="Phone" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="Address" class="form-label"></label><input asp-for="Address" class="form-control" /><span asp-validation-for="Address" class="text-danger"></span></div>
-<div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
+<div class="form-card-body"><div asp-validation-summary="ModelOnly" class="alert alert-danger"></div><h2 class="form-section-title">Customer information</h2><div class="row g-3">
+    <div class="col-md-8"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" placeholder="Company or customer name" /><span asp-validation-for="Name" class="text-danger"></span></div>
+    <div class="col-md-4"><label asp-for="TaxNumber" class="form-label"></label><input asp-for="TaxNumber" class="form-control" placeholder="Tax ID" /><span asp-validation-for="TaxNumber" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" placeholder="name@company.com" /><span asp-validation-for="Email" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="Phone" class="form-label"></label><input asp-for="Phone" class="form-control" placeholder="Phone number" /><span asp-validation-for="Phone" class="text-danger"></span></div>
+    <div class="col-12"><label asp-for="Address" class="form-label"></label><input asp-for="Address" class="form-control" placeholder="Street, city, postal code, country" /><span asp-validation-for="Address" class="text-danger"></span></div>
+    <div class="col-12"><div class="form-check form-switch"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label">Active customer</label></div></div>
+</div></div>

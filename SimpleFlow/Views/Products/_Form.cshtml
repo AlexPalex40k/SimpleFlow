@@ -1,8 +1,9 @@
 @model Product
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="mb-3"><label asp-for="Sku" class="form-label"></label><input asp-for="Sku" class="form-control" /><span asp-validation-for="Sku" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control"></textarea><span asp-validation-for="Description" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="UnitPrice" class="form-label"></label><input asp-for="UnitPrice" class="form-control" /><span asp-validation-for="UnitPrice" class="text-danger"></span></div>
-<div class="mb-3"><label asp-for="UnitOfMeasure" class="form-label"></label><input asp-for="UnitOfMeasure" class="form-control" /><span asp-validation-for="UnitOfMeasure" class="text-danger"></span></div>
-<div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
+<div class="form-card-body"><div asp-validation-summary="ModelOnly" class="alert alert-danger"></div><h2 class="form-section-title">Product information</h2><div class="row g-3">
+    <div class="col-md-4"><label asp-for="Sku" class="form-label">SKU</label><input asp-for="Sku" class="form-control" placeholder="PRD-001" /><span asp-validation-for="Sku" class="text-danger"></span></div>
+    <div class="col-md-8"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" placeholder="Product name" /><span asp-validation-for="Name" class="text-danger"></span></div>
+    <div class="col-12"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control" rows="4" placeholder="Product details and specifications"></textarea><span asp-validation-for="Description" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="UnitPrice" class="form-label">Unit price</label><div class="input-group"><span class="input-group-text">$</span><input asp-for="UnitPrice" class="form-control" /></div><span asp-validation-for="UnitPrice" class="text-danger"></span></div>
+    <div class="col-md-6"><label asp-for="UnitOfMeasure" class="form-label">Unit of measure</label><input asp-for="UnitOfMeasure" class="form-control" placeholder="pcs, kg, m²" /><span asp-validation-for="UnitOfMeasure" class="text-danger"></span></div>
+    <div class="col-12"><div class="form-check form-switch"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label">Active product</label></div></div>
+</div></div>
