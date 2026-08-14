@@ -1,0 +1,13 @@
+﻿﻿@{
+     ViewData["Title"] = "Dashboard";
+ }
+
+<div class="mb-4">
+    <h1>SimpleFlow</h1>
+    <p class="lead text-muted">ERP master data</p>
+</div>
+<div class="row g-3">
+    <div class="col-md-4"><a asp-controller="Customers" asp-action="Index" class="card card-body text-decoration-none"><h2 class="h5">Customers</h2><span class="text-muted">Manage customer records</span></a></div>
+    <div class="col-md-4"><a asp-controller="Products" asp-action="Index" class="card card-body text-decoration-none"><h2 class="h5">Products</h2><span class="text-muted">Manage the product catalog</span></a></div>
+    <div class="col-md-4"><a asp-controller="Warehouses" asp-action="Index" class="card card-body text-decoration-none"><h2 class="h5">Warehouses</h2><span class="text-muted">Manage storage locations</span></a></div>
+</div>

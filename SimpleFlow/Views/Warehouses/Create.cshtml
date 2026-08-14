@@ -1,0 +1,4 @@
+@model Warehouse
+@{ ViewData["Title"] = "New warehouse"; }
+<h1>New warehouse</h1><form asp-action="Create"><partial name="_Form" model="Model" /><button class="btn btn-primary">Save</button> <a asp-action="Index" class="btn btn-secondary">Cancel</a></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
