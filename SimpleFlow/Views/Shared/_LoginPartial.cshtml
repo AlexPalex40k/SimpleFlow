@@ -1,0 +1,19 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var displayName = User.Identity?.Name ?? "User";
+    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="user-chip text-decoration-none" title="Manage account">
+        <span class="avatar">@displayName[..1].ToUpperInvariant()</span>
+        <span class="d-none d-sm-block"><strong>@displayName</strong><small>Signed in</small></span>
+    </a>
+    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" class="m-0">
+        <button type="submit" class="btn btn-light btn-sm">Sign out</button>
+    </form>
+}
+else
+{
+    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-light btn-sm">Sign in</a>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-sm">Register</a>
+}

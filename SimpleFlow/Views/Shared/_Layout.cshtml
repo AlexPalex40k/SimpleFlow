@@ -38,7 +38,7 @@
                 <div class="topbar-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search SimpleFlow" aria-label="Search" /><kbd>Ctrl K</kbd></div>
                 <div class="topbar-actions">
                     <button class="icon-button" type="button" aria-label="Notifications">♢<span class="notification-dot"></span></button>
-                    <div class="user-chip"><span class="avatar">SF</span><span class="d-none d-sm-block"><strong>Administrator</strong><small>System account</small></span></div>
+                    <partial name="_LoginPartial" />
                 </div>
             </header>
             <main class="content-area">@RenderBody()</main>

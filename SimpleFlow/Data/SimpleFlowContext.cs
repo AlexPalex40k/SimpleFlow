@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SimpleFlow.Models;
 
 namespace SimpleFlow.Data;
 
-public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options) : DbContext(options)
+public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
+    : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Product> Products => Set<Product>();
@@ -11,8 +13,8 @@ public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options) : Db
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SimpleFlowContext).Assembly);
         base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SimpleFlowContext).Assembly);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
