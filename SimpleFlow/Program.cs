@@ -8,7 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
-builder.Services.AddRazorPages();
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("TwoFactorDisabled", policy => policy.RequireAssertion(_ => false)));
+builder.Services.AddRazorPages(options =>
+{
+    var disabledPages = new[]
+    {
+        "/Account/Manage/TwoFactorAuthentication",
+        "/Account/Manage/EnableAuthenticator",
+        "/Account/Manage/Disable2fa",
+        "/Account/Manage/GenerateRecoveryCodes",
+        "/Account/Manage/ResetAuthenticator"
+    };
+
+    foreach (var page in disabledPages)
+        options.Conventions.AuthorizeAreaPage("Identity", page, "TwoFactorDisabled");
+});
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnectionString' is not configured.");
 
