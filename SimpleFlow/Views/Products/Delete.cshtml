@@ -1,4 +1,32 @@
 @model Product
-@{ ViewData["Title"] = "Delete product"; }
-<div class="page-header"><div><div class="page-kicker">Products / Delete</div><h1 class="page-title">Delete product</h1><p class="page-subtitle">This action cannot be undone.</p></div></div>
-<section class="erp-card danger-card"><div class="form-card-body"><span class="danger-icon">!</span><div><h2 class="h5">Delete @Model.Sku — @Model.Name?</h2><p class="text-muted mb-0">The product will be permanently removed from the catalog.</p></div></div><form asp-action="Delete" asp-route-id="@Model.Id" class="form-actions"><button class="btn btn-danger">Delete product</button><a asp-action="Index" class="btn btn-light">Cancel</a></form></section>
+
+@{
+    ViewData["Title"] = "Delete product";
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Products / Delete</div>
+        <h1 class="page-title">Delete product</h1>
+        <p class="page-subtitle">This action cannot be undone.</p>
+    </div>
+</div>
+
+<section class="erp-card danger-card">
+    <div class="form-card-body">
+        <span class="danger-icon">!</span>
+        <div>
+            <h2 class="h5">Delete @Model.Sku — @Model.Name?</h2>
+            <p class="text-muted mb-0">
+                The product will be permanently removed from the catalog.
+            </p>
+        </div>
+    </div>
+
+    <form asp-action="Delete"
+          asp-route-id="@Model.Id"
+          class="form-actions">
+        <button class="btn btn-danger">Delete product</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</section>

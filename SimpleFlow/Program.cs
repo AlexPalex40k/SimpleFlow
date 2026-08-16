@@ -1,14 +1,40 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SimpleFlow.Data;
+using SimpleFlow.Filters;
 using SimpleFlow.Models;
+using SimpleFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile(
+    "appsettings.Local.json",
+    optional: true,
+    reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
-    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
-builder.Services.AddRazorPages();
+{
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
+    options.Filters.Add<DatabaseExceptionFilter>();
+});
+builder.Services.AddScoped<DatabaseExceptionFilter>();
+builder.Services.AddScoped<IDatabaseOperationService, DatabaseOperationService>();
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("TwoFactorDisabled", policy => policy.RequireAssertion(_ => false)));
+builder.Services.AddRazorPages(options =>
+{
+    var disabledPages = new[]
+    {
+        "/Account/Manage/TwoFactorAuthentication",
+        "/Account/Manage/EnableAuthenticator",
+        "/Account/Manage/Disable2fa",
+        "/Account/Manage/GenerateRecoveryCodes",
+        "/Account/Manage/ResetAuthenticator"
+    };
+
+    foreach (var page in disabledPages)
+        options.Conventions.AuthorizeAreaPage("Identity", page, "TwoFactorDisabled");
+});
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnectionString' is not configured.");
 
