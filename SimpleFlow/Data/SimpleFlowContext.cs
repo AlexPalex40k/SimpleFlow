@@ -4,11 +4,26 @@ using SimpleFlow.Models;
 
 namespace SimpleFlow.Data;
 
+/// <summary>
+/// Контекст данных SimpleFlow и ASP.NET Core Identity.
+/// </summary>
+/// <param name="options">Параметры конфигурации контекста базы данных.</param>
 public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
     : IdentityDbContext<ApplicationUser>(options)
 {
+    /// <summary>
+    /// Набор клиентов.
+    /// </summary>
     public DbSet<Customer> Customers => Set<Customer>();
+
+    /// <summary>
+    /// Набор товаров.
+    /// </summary>
     public DbSet<Product> Products => Set<Product>();
+
+    /// <summary>
+    /// Набор складов.
+    /// </summary>
     public DbSet<Warehouse> Warehouses => Set<Warehouse>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,6 +32,11 @@ public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SimpleFlowContext).Assembly);
     }
 
+    /// <summary>
+    /// Асинхронно сохраняет изменения и автоматически заполняет даты аудита.
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены операции.</param>
+    /// <returns>Количество записей, изменённых в базе данных.</returns>
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var now = DateTime.UtcNow;
