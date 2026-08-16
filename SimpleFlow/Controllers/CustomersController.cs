@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleFlow.Data;
 using SimpleFlow.Models;
+using SimpleFlow.Services;
 
 namespace SimpleFlow.Controllers;
 
@@ -9,7 +10,10 @@ namespace SimpleFlow.Controllers;
 /// Контроллер просмотра и управления клиентами.
 /// </summary>
 /// <param name="context">Контекст базы данных приложения.</param>
-public class CustomersController(SimpleFlowContext context) : Controller
+/// <param name="databaseOperation">Сервис безопасного сохранения данных.</param>
+public class CustomersController(
+    SimpleFlowContext context,
+    IDatabaseOperationService databaseOperation) : Controller
 {
     /// <summary>
     /// Отображает список клиентов.
@@ -35,7 +39,14 @@ public class CustomersController(SimpleFlowContext context) : Controller
             ModelState.AddModelError(nameof(Customer.TaxNumber), "A customer with this tax number already exists.");
         if (!ModelState.IsValid) return View(customer);
         context.Add(customer);
-        await context.SaveChangesAsync();
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(customer);
+        }
+
+        TempData["SuccessMessage"] = "Клиент успешно создан.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -71,7 +82,14 @@ public class CustomersController(SimpleFlowContext context) : Controller
         existing.Phone = customer.Phone;
         existing.Address = customer.Address;
         existing.IsActive = customer.IsActive;
-        await context.SaveChangesAsync();
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(customer);
+        }
+
+        TempData["SuccessMessage"] = "Изменения клиента сохранены.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -95,7 +113,15 @@ public class CustomersController(SimpleFlowContext context) : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var customer = await context.Customers.FindAsync(id);
-        if (customer is not null) { context.Remove(customer); await context.SaveChangesAsync(); }
+        if (customer is not null)
+        {
+            context.Remove(customer);
+            var result = await databaseOperation.SaveChangesAsync();
+            TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
+                ? "Клиент удалён."
+                : result.ErrorMessage;
+        }
+
         return RedirectToAction(nameof(Index));
     }
 }

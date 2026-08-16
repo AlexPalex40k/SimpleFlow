@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SimpleFlow.Data;
+using SimpleFlow.Filters;
 using SimpleFlow.Models;
+using SimpleFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(
@@ -11,7 +13,12 @@ builder.Configuration.AddJsonFile(
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
-    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
+{
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
+    options.Filters.Add<DatabaseExceptionFilter>();
+});
+builder.Services.AddScoped<DatabaseExceptionFilter>();
+builder.Services.AddScoped<IDatabaseOperationService, DatabaseOperationService>();
 builder.Services.AddAuthorization(options =>
     options.AddPolicy("TwoFactorDisabled", policy => policy.RequireAssertion(_ => false)));
 builder.Services.AddRazorPages(options =>

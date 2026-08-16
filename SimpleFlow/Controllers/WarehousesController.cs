@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleFlow.Data;
 using SimpleFlow.Models;
+using SimpleFlow.Services;
 
 namespace SimpleFlow.Controllers;
 
@@ -9,7 +10,10 @@ namespace SimpleFlow.Controllers;
 /// Контроллер просмотра и управления складами.
 /// </summary>
 /// <param name="context">Контекст базы данных приложения.</param>
-public class WarehousesController(SimpleFlowContext context) : Controller
+/// <param name="databaseOperation">Сервис безопасного сохранения данных.</param>
+public class WarehousesController(
+    SimpleFlowContext context,
+    IDatabaseOperationService databaseOperation) : Controller
 {
     /// <summary>
     /// Отображает список складов.
@@ -34,7 +38,15 @@ public class WarehousesController(SimpleFlowContext context) : Controller
         if (await context.Warehouses.AnyAsync(x => x.Code == warehouse.Code))
             ModelState.AddModelError(nameof(Warehouse.Code), "A warehouse with this code already exists.");
         if (!ModelState.IsValid) return View(warehouse);
-        context.Add(warehouse); await context.SaveChangesAsync();
+        context.Add(warehouse);
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(warehouse);
+        }
+
+        TempData["SuccessMessage"] = "Склад успешно создан.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -68,7 +80,14 @@ public class WarehousesController(SimpleFlowContext context) : Controller
         existing.Name = warehouse.Name;
         existing.Address = warehouse.Address;
         existing.IsActive = warehouse.IsActive;
-        await context.SaveChangesAsync();
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(warehouse);
+        }
+
+        TempData["SuccessMessage"] = "Изменения склада сохранены.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -92,7 +111,15 @@ public class WarehousesController(SimpleFlowContext context) : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var warehouse = await context.Warehouses.FindAsync(id);
-        if (warehouse is not null) { context.Remove(warehouse); await context.SaveChangesAsync(); }
+        if (warehouse is not null)
+        {
+            context.Remove(warehouse);
+            var result = await databaseOperation.SaveChangesAsync();
+            TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
+                ? "Склад удалён."
+                : result.ErrorMessage;
+        }
+
         return RedirectToAction(nameof(Index));
     }
 }

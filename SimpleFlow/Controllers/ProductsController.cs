@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleFlow.Data;
 using SimpleFlow.Models;
+using SimpleFlow.Services;
 
 namespace SimpleFlow.Controllers;
 
@@ -9,7 +10,10 @@ namespace SimpleFlow.Controllers;
 /// Контроллер просмотра и управления товарами.
 /// </summary>
 /// <param name="context">Контекст базы данных приложения.</param>
-public class ProductsController(SimpleFlowContext context) : Controller
+/// <param name="databaseOperation">Сервис безопасного сохранения данных.</param>
+public class ProductsController(
+    SimpleFlowContext context,
+    IDatabaseOperationService databaseOperation) : Controller
 {
     /// <summary>
     /// Отображает список товаров.
@@ -34,7 +38,15 @@ public class ProductsController(SimpleFlowContext context) : Controller
         if (await context.Products.AnyAsync(x => x.Sku == product.Sku))
             ModelState.AddModelError(nameof(Product.Sku), "A product with this SKU already exists.");
         if (!ModelState.IsValid) return View(product);
-        context.Add(product); await context.SaveChangesAsync();
+        context.Add(product);
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(product);
+        }
+
+        TempData["SuccessMessage"] = "Товар успешно создан.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -70,7 +82,14 @@ public class ProductsController(SimpleFlowContext context) : Controller
         existing.UnitPrice = product.UnitPrice;
         existing.UnitOfMeasure = product.UnitOfMeasure;
         existing.IsActive = product.IsActive;
-        await context.SaveChangesAsync();
+        var result = await databaseOperation.SaveChangesAsync();
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            return View(product);
+        }
+
+        TempData["SuccessMessage"] = "Изменения товара сохранены.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -94,7 +113,15 @@ public class ProductsController(SimpleFlowContext context) : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var product = await context.Products.FindAsync(id);
-        if (product is not null) { context.Remove(product); await context.SaveChangesAsync(); }
+        if (product is not null)
+        {
+            context.Remove(product);
+            var result = await databaseOperation.SaveChangesAsync();
+            TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
+                ? "Товар удалён."
+                : result.ErrorMessage;
+        }
+
         return RedirectToAction(nameof(Index));
     }
 }
