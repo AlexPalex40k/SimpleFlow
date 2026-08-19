@@ -41,4 +41,9 @@ public class Customer : EntityBase
     /// Признак активности клиента.
     /// </summary>
     public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Проекты клиента.
+    /// </summary>
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

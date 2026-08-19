@@ -1,0 +1,75 @@
+@model IEnumerable<Project>
+
+@{
+    ViewData["Title"] = "Projects";
+    var count = Model.Count();
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Construction</div>
+        <h1 class="page-title">Projects</h1>
+        <p class="page-subtitle">Construction contracts, schedules, customers, and delivery status.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">+ New project</a>
+</div>
+
+<section class="erp-card">
+    <div class="toolbar">
+        <span class="toolbar-meta"><strong>@count</strong> @(count == 1 ? "project" : "projects")</span>
+        <span class="toolbar-meta">Sorted by project number</span>
+    </div>
+
+    @if (count == 0)
+    {
+        <div class="empty-state">
+            <h2 class="h5">No projects yet</h2>
+            <p>Create the first construction project to get started.</p>
+            <a asp-action="Create" class="btn btn-primary btn-sm">New project</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table erp-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Start date</th>
+                        <th>Planned end</th>
+                        <th class="text-end">Contract amount</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="record-code">@item.ProjectNumber</span>
+                                <span class="record-title">@item.Name</span>
+                            </td>
+                            <td>@item.Customer?.Name</td>
+                            <td>
+                                <span class="status-badge status-active">
+                                    @(item.Status == ProjectStatus.OnHold ? "On Hold" : item.Status)
+                                </span>
+                            </td>
+                            <td>@item.StartDate?.ToString("yyyy-MM-dd")</td>
+                            <td>@item.PlannedEndDate?.ToString("yyyy-MM-dd")</td>
+                            <td class="text-end">@item.ContractAmount.ToString("N2")</td>
+                            <td class="text-end">
+                                <span class="row-actions">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="row-action">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="row-action danger">Delete</a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

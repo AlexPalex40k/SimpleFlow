@@ -22,6 +22,11 @@ public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
     public DbSet<Product> Products => Set<Product>();
 
     /// <summary>
+    /// Набор строительных проектов.
+    /// </summary>
+    public DbSet<Project> Projects => Set<Project>();
+
+    /// <summary>
     /// Набор складов.
     /// </summary>
     public DbSet<Warehouse> Warehouses => Set<Warehouse>();

@@ -76,11 +76,12 @@
                 </a>
 
                 <div class="nav-section">Construction</div>
-                <span class="sidebar-link disabled">
+                <a asp-controller="Projects"
+                   asp-action="Index"
+                   class="sidebar-link @Active("Projects")">
                     <span class="nav-icon">&#9636;</span>
                     <span>Projects</span>
-                    <small>Soon</small>
-                </span>
+                </a>
                 <span class="sidebar-link disabled">
                     <span class="nav-icon">&#8599;</span>
                     <span>Job costs</span>

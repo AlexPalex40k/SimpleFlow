@@ -1,0 +1,66 @@
+@model Project
+
+<div class="form-card-body">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <h2 class="form-section-title">Project information</h2>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="ProjectNumber" class="form-label">Project number</label>
+            <input asp-for="ProjectNumber" class="form-control" placeholder="PRJ-001" />
+            <span asp-validation-for="ProjectNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-8">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Project name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="CustomerId" class="form-label">Customer</label>
+            <select asp-for="CustomerId" asp-items="ViewBag.CustomerId" class="form-select">
+                <option value="">Select customer</option>
+            </select>
+            <span asp-validation-for="CustomerId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Status" class="form-label"></label>
+            <select asp-for="Status" asp-items="Html.GetEnumSelectList<ProjectStatus>()" class="form-select"></select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="StartDate" class="form-label">Start date</label>
+            <input asp-for="StartDate" class="form-control" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="PlannedEndDate" class="form-label">Planned end date</label>
+            <input asp-for="PlannedEndDate" class="form-control" />
+            <span asp-validation-for="PlannedEndDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="ActualEndDate" class="form-label">Actual end date</label>
+            <input asp-for="ActualEndDate" class="form-control" />
+            <span asp-validation-for="ActualEndDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-8">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" placeholder="Construction site address" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="ContractAmount" class="form-label">Contract amount</label>
+            <input asp-for="ContractAmount" class="form-control" />
+            <span asp-validation-for="ContractAmount" class="text-danger"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="ProjectManager" class="form-label">Project manager</label>
+            <input asp-for="ProjectManager" class="form-control" placeholder="Manager name" />
+            <span asp-validation-for="ProjectManager" class="text-danger"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Scope and project notes"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,8 @@ public class HttpRouteTests : IClassFixture<SimpleFlowWebApplicationFactory>
     [InlineData("/Customers/Create")]
     [InlineData("/Products")]
     [InlineData("/Products/Create")]
+    [InlineData("/Projects")]
+    [InlineData("/Projects/Create")]
     [InlineData("/Warehouses")]
     [InlineData("/Warehouses/Create")]
     [InlineData("/Identity/Account/Login")]
@@ -52,6 +54,7 @@ public class HttpRouteTests : IClassFixture<SimpleFlowWebApplicationFactory>
     [Theory]
     [InlineData("/Customers/Edit/999999")]
     [InlineData("/Products/Edit/999999")]
+    [InlineData("/Projects/Edit/999999")]
     [InlineData("/Warehouses/Edit/999999")]
     public async Task MissingEntityRoute_ReturnsNotFound(string route)
     {

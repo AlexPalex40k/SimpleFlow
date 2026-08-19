@@ -1,0 +1,25 @@
+@model Project
+
+@{ ViewData["Title"] = "Delete project"; }
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Projects / Delete</div>
+        <h1 class="page-title">Delete project</h1>
+        <p class="page-subtitle">This action cannot be undone.</p>
+    </div>
+</div>
+
+<section class="erp-card danger-card">
+    <div class="form-card-body">
+        <span class="danger-icon">!</span>
+        <div>
+            <h2 class="h5">Delete @Model.ProjectNumber — @Model.Name?</h2>
+            <p class="text-muted mb-0">Customer: @Model.Customer?.Name</p>
+        </div>
+    </div>
+    <form asp-action="Delete" asp-route-id="@Model.Id" class="form-actions">
+        <button class="btn btn-danger">Delete project</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</section>
