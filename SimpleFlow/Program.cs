@@ -75,3 +75,8 @@ app.MapRazorPages();
 
 
 app.Run();
+
+/// <summary>
+/// Точка входа веб-приложения, доступная интеграционным тестам.
+/// </summary>
+public partial class Program;
