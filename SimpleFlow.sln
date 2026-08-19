@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37516.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFlow", "SimpleFlow\SimpleFlow.csproj", "{382172C9-7679-4DDA-9AD6-2A999DB31B2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFlow.Tests", "SimpleFlow.Tests\SimpleFlow.Tests.csproj", "{D4E3C395-E901-4C59-95B8-D8B034889FB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{382172C9-7679-4DDA-9AD6-2A999DB31B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E3C395-E901-4C59-95B8-D8B034889FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E3C395-E901-4C59-95B8-D8B034889FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E3C395-E901-4C59-95B8-D8B034889FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E3C395-E901-4C59-95B8-D8B034889FB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
