@@ -31,6 +31,21 @@ public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
     /// </summary>
     public DbSet<Warehouse> Warehouses => Set<Warehouse>();
 
+    /// <summary>
+    /// Набор складских остатков.
+    /// </summary>
+    public DbSet<InventoryBalance> InventoryBalances => Set<InventoryBalance>();
+    
+    /// <summary>
+    /// Набор складских документов.
+    /// </summary>
+    public DbSet<InventoryDocument> InventoryDocuments => Set<InventoryDocument>();
+
+    /// <summary>
+    /// Набор строк складских документов.
+    /// </summary>
+    public DbSet<InventoryDocumentLine> InventoryDocumentLines => Set<InventoryDocumentLine>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

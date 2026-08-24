@@ -4,6 +4,7 @@ using SimpleFlow.Data;
 using SimpleFlow.Filters;
 using SimpleFlow.Models;
 using SimpleFlow.Services;
+using SimpleFlow.Services.Inventory;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(
@@ -19,6 +20,7 @@ builder.Services.AddControllersWithViews(options =>
 });
 builder.Services.AddScoped<DatabaseExceptionFilter>();
 builder.Services.AddScoped<IDatabaseOperationService, DatabaseOperationService>();
+builder.Services.AddScoped<IInventoryPostingService, InventoryPostingService>();
 builder.Services.AddAuthorization(options =>
     options.AddPolicy("TwoFactorDisabled", policy => policy.RequireAssertion(_ => false)));
 builder.Services.AddRazorPages(options =>

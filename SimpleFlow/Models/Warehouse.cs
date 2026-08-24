@@ -29,4 +29,10 @@ public class Warehouse : EntityBase
     /// Признак активности склада.
     /// </summary>
     public bool IsActive { get; set; } = true;
+    
+    /// <summary>
+    /// Остатки товаров на складе.
+    /// </summary>
+    public ICollection<InventoryBalance> InventoryBalances { get; set; }
+        = new List<InventoryBalance>();
 }
