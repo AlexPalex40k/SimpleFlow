@@ -27,7 +27,7 @@ public class Product : EntityBase
     public string? Description { get; set; }
 
     [Column(TypeName = "decimal(18,2)")]
-    [Range(0, 9999999999999999.99)]
+    [Range(0, 99999.99)]
     /// <summary>
     /// Цена за единицу товара.
     /// </summary>
@@ -43,4 +43,10 @@ public class Product : EntityBase
     /// Признак активности товара.
     /// </summary>
     public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Остатки товара по складам.
+    /// </summary>
+    public ICollection<InventoryBalance> InventoryBalances { get; set; }
+        = new List<InventoryBalance>();
 }

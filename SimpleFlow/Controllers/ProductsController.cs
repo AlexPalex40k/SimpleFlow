@@ -46,7 +46,7 @@ public class ProductsController(
             return View(product);
         }
 
-        TempData["SuccessMessage"] = "Товар успешно создан.";
+        TempData["SuccessMessage"] = "Product created successfully.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -89,7 +89,7 @@ public class ProductsController(
             return View(product);
         }
 
-        TempData["SuccessMessage"] = "Изменения товара сохранены.";
+        TempData["SuccessMessage"] = "Product changes saved.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -118,7 +118,7 @@ public class ProductsController(
             context.Remove(product);
             var result = await databaseOperation.SaveChangesAsync();
             TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
-                ? "Товар удалён."
+                ? "Product deleted."
                 : result.ErrorMessage;
         }
 

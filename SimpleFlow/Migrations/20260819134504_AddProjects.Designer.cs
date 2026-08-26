@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleFlow.Data;
 
@@ -11,9 +12,11 @@ using SimpleFlow.Data;
 namespace SimpleFlow.Migrations
 {
     [DbContext(typeof(SimpleFlowContext))]
-    partial class SimpleFlowContextModelSnapshot : ModelSnapshot
+    [Migration("20260819134504_AddProjects")]
+    partial class AddProjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,150 +274,6 @@ namespace SimpleFlow.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("SimpleFlow.Models.InventoryBalance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("AverageCost")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("QuantityOnHand")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<decimal>("QuantityReserved")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.HasIndex("ProductId", "WarehouseId")
-                        .IsUnique();
-
-                    b.ToTable("InventoryBalances", t =>
-                        {
-                            t.HasCheckConstraint("CK_InventoryBalances_AverageCost", "[AverageCost] >= 0");
-
-                            t.HasCheckConstraint("CK_InventoryBalances_QuantityOnHand", "[QuantityOnHand] >= 0");
-
-                            t.HasCheckConstraint("CK_InventoryBalances_QuantityReserved", "[QuantityReserved] >= 0");
-
-                            t.HasCheckConstraint("CK_InventoryBalances_ReservedNotGreaterThanOnHand", "[QuantityReserved] <= [QuantityOnHand]");
-                        });
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.InventoryDocument", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("DestinationWarehouseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DocumentDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("OperationType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SourceWarehouseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DestinationWarehouseId");
-
-                    b.HasIndex("DocumentNumber")
-                        .IsUnique();
-
-                    b.HasIndex("SourceWarehouseId");
-
-                    b.ToTable("InventoryDocuments");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.InventoryDocumentLine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InventoryDocumentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<decimal>("UnitCost")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryDocumentId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("InventoryDocumentLines", t =>
-                        {
-                            t.HasCheckConstraint("CK_InventoryDocumentLines_Quantity", "[Quantity] > 0");
-
-                            t.HasCheckConstraint("CK_InventoryDocumentLines_UnitCost", "[UnitCost] >= 0");
-                        });
-                });
-
             modelBuilder.Entity("SimpleFlow.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -616,61 +475,6 @@ namespace SimpleFlow.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SimpleFlow.Models.InventoryBalance", b =>
-                {
-                    b.HasOne("SimpleFlow.Models.Product", "Product")
-                        .WithMany("InventoryBalances")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SimpleFlow.Models.Warehouse", "Warehouse")
-                        .WithMany("InventoryBalances")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.InventoryDocument", b =>
-                {
-                    b.HasOne("SimpleFlow.Models.Warehouse", "DestinationWarehouse")
-                        .WithMany()
-                        .HasForeignKey("DestinationWarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SimpleFlow.Models.Warehouse", "SourceWarehouse")
-                        .WithMany()
-                        .HasForeignKey("SourceWarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("DestinationWarehouse");
-
-                    b.Navigation("SourceWarehouse");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.InventoryDocumentLine", b =>
-                {
-                    b.HasOne("SimpleFlow.Models.InventoryDocument", "InventoryDocument")
-                        .WithMany("Lines")
-                        .HasForeignKey("InventoryDocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SimpleFlow.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("InventoryDocument");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("SimpleFlow.Models.Project", b =>
                 {
                     b.HasOne("SimpleFlow.Models.Customer", "Customer")
@@ -685,21 +489,6 @@ namespace SimpleFlow.Migrations
             modelBuilder.Entity("SimpleFlow.Models.Customer", b =>
                 {
                     b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.InventoryDocument", b =>
-                {
-                    b.Navigation("Lines");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.Product", b =>
-                {
-                    b.Navigation("InventoryBalances");
-                });
-
-            modelBuilder.Entity("SimpleFlow.Models.Warehouse", b =>
-                {
-                    b.Navigation("InventoryBalances");
                 });
 #pragma warning restore 612, 618
         }

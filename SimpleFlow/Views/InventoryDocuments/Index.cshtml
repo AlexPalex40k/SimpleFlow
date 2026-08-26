@@ -1,0 +1,98 @@
+@model IEnumerable<InventoryDocument>
+
+@{
+    ViewData["Title"] = "Inventory documents";
+    var count = Model.Count();
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Inventory</div>
+        <h1 class="page-title">Inventory documents</h1>
+        <p class="page-subtitle">
+            Receipts, issues, transfers, and reservations.
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary">
+        + New document
+    </a>
+</div>
+
+<section class="erp-card">
+    @if (count == 0)
+    {
+        <div class="empty-state">
+            <h2 class="h5">No inventory documents</h2>
+            <p>Create the first warehouse document.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table erp-table">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Date</th>
+                        <th>Operation</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var document in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details"
+                                   asp-route-id="@document.Id"
+                                   class="record-code">
+                                    @document.DocumentNumber
+                                </a>
+                            </td>
+                            <td>
+                                @document.DocumentDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>@document.OperationType</td>
+                            <td>@document.SourceWarehouse?.Name</td>
+                            <td>@document.DestinationWarehouse?.Name</td>
+                            <td>
+                                <span class="status-badge status-active">
+                                    @document.Status
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <span class="row-actions">
+                                    <a asp-action="Details"
+                                       asp-route-id="@document.Id"
+                                       class="row-action">
+                                        View
+                                    </a>
+
+                                    @if (document.Status ==
+                                         InventoryDocumentStatus.Draft)
+                                    {
+                                        <a asp-action="Edit"
+                                           asp-route-id="@document.Id"
+                                           class="row-action">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@document.Id"
+                                           class="row-action danger">
+                                            Delete
+                                        </a>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

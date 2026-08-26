@@ -46,7 +46,7 @@ public class CustomersController(
             return View(customer);
         }
 
-        TempData["SuccessMessage"] = "Клиент успешно создан.";
+        TempData["SuccessMessage"] = "Customer created successfully.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -89,7 +89,7 @@ public class CustomersController(
             return View(customer);
         }
 
-        TempData["SuccessMessage"] = "Изменения клиента сохранены.";
+        TempData["SuccessMessage"] = "Customer changes saved.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -118,7 +118,7 @@ public class CustomersController(
             context.Remove(customer);
             var result = await databaseOperation.SaveChangesAsync();
             TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
-                ? "Клиент удалён."
+                ? "Customer deleted."
                 : result.ErrorMessage;
         }
 

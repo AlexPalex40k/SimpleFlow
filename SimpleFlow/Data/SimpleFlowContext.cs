@@ -22,9 +22,29 @@ public class SimpleFlowContext(DbContextOptions<SimpleFlowContext> options)
     public DbSet<Product> Products => Set<Product>();
 
     /// <summary>
+    /// Набор строительных проектов.
+    /// </summary>
+    public DbSet<Project> Projects => Set<Project>();
+
+    /// <summary>
     /// Набор складов.
     /// </summary>
     public DbSet<Warehouse> Warehouses => Set<Warehouse>();
+
+    /// <summary>
+    /// Набор складских остатков.
+    /// </summary>
+    public DbSet<InventoryBalance> InventoryBalances => Set<InventoryBalance>();
+    
+    /// <summary>
+    /// Набор складских документов.
+    /// </summary>
+    public DbSet<InventoryDocument> InventoryDocuments => Set<InventoryDocument>();
+
+    /// <summary>
+    /// Набор строк складских документов.
+    /// </summary>
+    public DbSet<InventoryDocumentLine> InventoryDocumentLines => Set<InventoryDocumentLine>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

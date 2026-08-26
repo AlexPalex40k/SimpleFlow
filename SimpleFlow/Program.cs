@@ -4,6 +4,9 @@ using SimpleFlow.Data;
 using SimpleFlow.Filters;
 using SimpleFlow.Models;
 using SimpleFlow.Services;
+using SimpleFlow.Services.Inventory;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(
@@ -19,6 +22,7 @@ builder.Services.AddControllersWithViews(options =>
 });
 builder.Services.AddScoped<DatabaseExceptionFilter>();
 builder.Services.AddScoped<IDatabaseOperationService, DatabaseOperationService>();
+builder.Services.AddScoped<IInventoryPostingService, InventoryPostingService>();
 builder.Services.AddAuthorization(options =>
     options.AddPolicy("TwoFactorDisabled", policy => policy.RequireAssertion(_ => false)));
 builder.Services.AddRazorPages(options =>
@@ -49,6 +53,18 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<SimpleFlowContext>();
 
 var app = builder.Build();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en-US")
+};
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

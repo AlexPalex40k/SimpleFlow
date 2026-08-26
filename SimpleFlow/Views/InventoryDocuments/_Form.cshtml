@@ -1,0 +1,142 @@
+@model InventoryDocumentEditViewModel
+
+<div class="form-card-body">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <h2 class="form-section-title">Document information</h2>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="DocumentNumber" class="form-label">Document number</label>
+            <input asp-for="DocumentNumber" class="form-control" />
+            <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="DocumentDate" class="form-label">Document date</label>
+            <input asp-for="DocumentDate" class="form-control" />
+            <span asp-validation-for="DocumentDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="OperationType" class="form-label">Operation</label>
+            <select asp-for="OperationType" asp-items="ViewBag.OperationTypes" class="form-select"></select>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="SourceWarehouseId" class="form-label">Source warehouse</label>
+            <select asp-for="SourceWarehouseId" asp-items="ViewBag.Warehouses" class="form-select">
+                <option value="">Not selected</option>
+            </select>
+            <span asp-validation-for="SourceWarehouseId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="DestinationWarehouseId" class="form-label">Destination warehouse</label>
+            <select asp-for="DestinationWarehouseId" asp-items="ViewBag.Warehouses" class="form-select">
+                <option value="">Not selected</option>
+            </select>
+            <span asp-validation-for="DestinationWarehouseId" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        </div>
+    </div>
+
+    <h2 class="form-section-title mt-4">Document lines</h2>
+
+    <span asp-validation-for="Lines"
+          class="text-danger d-block mb-3"></span>
+
+    <div class="table-responsive">
+        <table class="table erp-table" id="documentLines">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit cost</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Lines.Count; i++)
+                {
+                    <tr class="document-line">
+                        <td>
+                            <input type="hidden" name="Lines.Index" value="@i" />
+
+                            <select asp-for="Lines[i].ProductId" asp-items="ViewBag.Products" class="form-select">
+                                <option value="">Select product</option>
+                            </select>
+
+                            <span asp-validation-for="Lines[i].ProductId" class="text-danger"></span>
+                        </td>
+
+                        <td>
+                            <input asp-for="Lines[i].Quantity" class="form-control" />
+
+                            <span asp-validation-for="Lines[i].Quantity" class="text-danger"></span>
+                        </td>
+
+                        <td>
+                            <input asp-for="Lines[i].UnitCost" class="form-control" />
+
+                            <span asp-validation-for="Lines[i].UnitCost" class="text-danger"></span>
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-light remove-line">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <template id="documentLineTemplate">
+            <tr class="document-line">
+                <td>
+                    <input type="hidden" name="Lines.Index" value="__token__" />
+
+                    <select name="Lines[__token__].ProductId" class="form-select">
+                        <option value="">Select product</option>
+
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <option value="@product.Value">@product.Text</option>
+                        }
+                    </select>
+
+                    <span data-valmsg-for="Lines[__token__].ProductId" class="text-danger"></span>
+                </td>
+
+                <td>
+                    <input name="Lines[__token__].Quantity" value="1" type="number" min="0.0001" step="0.0001"
+                           class="form-control" />
+
+                    <span data-valmsg-for="Lines[__token__].Quantity" class="text-danger"></span>
+                </td>
+
+                <td>
+                    <input name="Lines[__token__].UnitCost" value="0" type="number" min="0" step="0.0001"
+                           class="form-control" />
+
+                    <span data-valmsg-for="Lines[__token__].UnitCost" class="text-danger"></span>
+                </td>
+
+                <td>
+                    <button type="button" class="btn btn-light remove-line">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        </template>
+    </div>
+
+    <button type="button" id="addLine" class="btn btn-light btn-sm">
+        + Add line
+    </button>
+</div>

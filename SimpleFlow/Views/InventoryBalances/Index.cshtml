@@ -1,0 +1,90 @@
+@model IEnumerable<InventoryBalance>
+
+@{
+    ViewData["Title"] = "Inventory balances";
+    var count = Model.Count();
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Inventory</div>
+        <h1 class="page-title">Inventory balances</h1>
+        <p class="page-subtitle">
+            Quantity, reservations, availability, and average cost.
+        </p>
+    </div>
+</div>
+
+<section class="erp-card">
+    <form asp-action="Index" method="get" class="toolbar">
+        <select name="warehouseId" class="form-select" style="max-width: 320px;">
+            <option value="">All warehouses</option>
+            @foreach (var warehouse in ViewBag.Warehouses)
+            {
+                <option value="@warehouse.Id" selected="@(ViewBag.WarehouseId == warehouse.Id)">
+                    @warehouse.Code — @warehouse.Name
+                </option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-light">
+            Apply
+        </button>
+
+        <a asp-action="Index" class="btn btn-light">
+            Reset
+        </a>
+    </form>
+
+    @if (count == 0)
+    {
+        <div class="empty-state">
+            <h2 class="h5">No inventory balances</h2>
+            <p>Post a receipt document to create an inventory balance.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table erp-table">
+                <thead>
+                    <tr>
+                        <th>Warehouse</th>
+                        <th>SKU</th>
+                        <th>Product</th>
+                        <th class="text-end">On hand</th>
+                        <th class="text-end">Reserved</th>
+                        <th class="text-end">Available</th>
+                        <th class="text-end">Average cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var balance in Model)
+                    {
+                        <tr>
+                            <td>@balance.Warehouse?.Name</td>
+                            <td>
+                                <span class="record-code">
+                                    @balance.Product?.Sku
+                                </span>
+                            </td>
+                            <td>@balance.Product?.Name</td>
+                            <td class="text-end">
+                                @balance.QuantityOnHand.ToString("N4")
+                            </td>
+                            <td class="text-end">
+                                @balance.QuantityReserved.ToString("N4")
+                            </td>
+                            <td class="text-end">
+                                @balance.QuantityAvailable.ToString("N4")
+                            </td>
+                            <td class="text-end">
+                                @balance.AverageCost.ToString("N4")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
