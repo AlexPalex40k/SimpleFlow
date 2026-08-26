@@ -10,28 +10,21 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] &middot; SimpleFlow</title>
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
-    <link rel="stylesheet"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
+
 <body>
     <div class="app-shell">
-        <aside class="app-sidebar offcanvas-lg offcanvas-start"
-               tabindex="-1"
-               id="appSidebar"
+        <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar"
                aria-label="Main navigation">
             <div class="sidebar-brand">
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="brand-link">
+                <a asp-controller="Home" asp-action="Index" class="brand-link">
                     <span class="brand-mark">S</span>
                     <span>
                         <strong>SimpleFlow</strong>
@@ -39,46 +32,48 @@
                     </span>
                 </a>
 
-                <button type="button"
-                        class="btn-close d-lg-none"
-                        data-bs-dismiss="offcanvas"
-                        data-bs-target="#appSidebar"
-                        aria-label="Close"></button>
+                <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                        data-bs-target="#appSidebar" aria-label="Close"></button>
             </div>
 
             <nav class="sidebar-nav">
                 <div class="nav-section">Workspace</div>
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="sidebar-link @Active("Home")">
+                <a asp-controller="Home" asp-action="Index" class="sidebar-link @Active("Home")">
                     <span class="nav-icon">&#9638;</span>
                     <span>Dashboard</span>
                 </a>
 
                 <div class="nav-section">Master data</div>
-                <a asp-controller="Customers"
-                   asp-action="Index"
-                   class="sidebar-link @Active("Customers")">
+                <a asp-controller="Customers" asp-action="Index" class="sidebar-link @Active("Customers")">
                     <span class="nav-icon">&#9678;</span>
                     <span>Customers</span>
                 </a>
-                <a asp-controller="Products"
-                   asp-action="Index"
-                   class="sidebar-link @Active("Products")">
+
+                <a asp-controller="Products" asp-action="Index" class="sidebar-link @Active("Products")">
                     <span class="nav-icon">&#9671;</span>
                     <span>Products</span>
                 </a>
-                <a asp-controller="Warehouses"
-                   asp-action="Index"
-                   class="sidebar-link @Active("Warehouses")">
+                <a asp-controller="Warehouses" asp-action="Index" class="sidebar-link @Active("Warehouses")">
                     <span class="nav-icon">&#8962;</span>
                     <span>Warehouses</span>
                 </a>
 
+                <div class="nav-section">Inventory</div>
+
+                <a asp-controller="InventoryDocuments" asp-action="Index"
+                   class="sidebar-link @Active("InventoryDocuments")">
+                    <span class="nav-icon">&#8644;</span>
+                    <span>Documents</span>
+                </a>
+
+                <a asp-controller="InventoryBalances" asp-action="Index"
+                   class="sidebar-link @Active("InventoryBalances")">
+                    <span class="nav-icon">&#9638;</span>
+                    <span>Balances</span>
+                </a>
+
                 <div class="nav-section">Construction</div>
-                <a asp-controller="Projects"
-                   asp-action="Index"
-                   class="sidebar-link @Active("Projects")">
+                <a asp-controller="Projects" asp-action="Index" class="sidebar-link @Active("Projects")">
                     <span class="nav-icon">&#9636;</span>
                     <span>Projects</span>
                 </a>
@@ -100,18 +95,13 @@
 
         <div class="app-main">
             <header class="topbar">
-                <button class="icon-button d-lg-none"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#appSidebar"
-                        aria-controls="appSidebar"
+                <button class="icon-button d-lg-none" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#appSidebar" aria-controls="appSidebar"
                         aria-label="Open navigation">&#9776;</button>
 
                 <div class="topbar-search">
                     <span aria-hidden="true">&#8981;</span>
-                    <input type="search"
-                           placeholder="Search SimpleFlow"
-                           aria-label="Search" />
+                    <input type="search" placeholder="Search SimpleFlow" aria-label="Search" />
                     <kbd>Ctrl K</kbd>
                 </div>
 
@@ -136,4 +126,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
