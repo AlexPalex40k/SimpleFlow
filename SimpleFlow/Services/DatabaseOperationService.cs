@@ -27,7 +27,7 @@ public sealed class DatabaseOperationService(
             logger.LogWarning(exception, "A database concurrency conflict occurred.");
             return new DatabaseOperationResult(
                 false,
-                "Запись была изменена или удалена другим пользователем. Обновите страницу и повторите действие.");
+                "The record was changed or deleted by another user. Refresh the page and try again.");
         }
         catch (DbUpdateException exception)
         {
@@ -42,13 +42,13 @@ public sealed class DatabaseOperationService(
         {
             return sqlException.Number switch
             {
-                2601 or 2627 => "Запись с такими уникальными данными уже существует.",
-                547 => "Запись нельзя удалить или изменить, потому что она используется в других данных.",
-                -2 => "Сервер базы данных не ответил вовремя. Повторите действие позже.",
-                _ => "Не удалось сохранить изменения в базе данных. Повторите действие позже."
+                2601 or 2627 => "A record with the same unique data already exists.",
+                547 => "The record cannot be deleted or changed because it is referenced by other data.",
+                -2 => "The database server did not respond in time. Try again later.",
+                _ => "The database changes could not be saved. Try again later."
             };
         }
 
-        return "Не удалось сохранить изменения в базе данных. Повторите действие позже.";
+        return "The database changes could not be saved. Try again later.";
     }
 }

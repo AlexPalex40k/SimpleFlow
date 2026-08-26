@@ -65,7 +65,7 @@ public class ProjectsController(
             return View(project);
         }
 
-        TempData["SuccessMessage"] = "Проект успешно создан.";
+        TempData["SuccessMessage"] = "Project created successfully.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -124,7 +124,7 @@ public class ProjectsController(
             return View(project);
         }
 
-        TempData["SuccessMessage"] = "Изменения проекта сохранены.";
+        TempData["SuccessMessage"] = "Project changes saved.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -157,7 +157,7 @@ public class ProjectsController(
             context.Projects.Remove(project);
             var result = await databaseOperation.SaveChangesAsync();
             TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
-                ? "Проект удалён."
+                ? "Project deleted."
                 : result.ErrorMessage;
         }
 
@@ -179,15 +179,15 @@ public class ProjectsController(
     {
         if (await context.Projects.AnyAsync(item =>
                 item.Id != currentId && item.ProjectNumber == project.ProjectNumber))
-            ModelState.AddModelError(nameof(Project.ProjectNumber), "Проект с таким номером уже существует.");
+            ModelState.AddModelError(nameof(Project.ProjectNumber), "A project with this number already exists.");
 
         if (!await context.Customers.AnyAsync(customer => customer.Id == project.CustomerId))
-            ModelState.AddModelError(nameof(Project.CustomerId), "Выберите существующего клиента.");
+            ModelState.AddModelError(nameof(Project.CustomerId), "Select an existing customer.");
 
         if (project.PlannedEndDate < project.StartDate)
-            ModelState.AddModelError(nameof(Project.PlannedEndDate), "Плановая дата завершения не может быть раньше даты начала.");
+            ModelState.AddModelError(nameof(Project.PlannedEndDate), "The planned end date cannot be earlier than the start date.");
 
         if (project.ActualEndDate < project.StartDate)
-            ModelState.AddModelError(nameof(Project.ActualEndDate), "Фактическая дата завершения не может быть раньше даты начала.");
+            ModelState.AddModelError(nameof(Project.ActualEndDate), "The actual end date cannot be earlier than the start date.");
     }
 }

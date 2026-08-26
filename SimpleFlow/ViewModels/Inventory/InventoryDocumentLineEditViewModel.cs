@@ -15,7 +15,7 @@ public class InventoryDocumentLineEditViewModel
     /// <summary>
     /// Идентификатор товара.
     /// </summary>
-    [Range(1, int.MaxValue, ErrorMessage = "Выберите товар.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Select a product.")]
     public int ProductId { get; set; }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class InventoryDocumentLineEditViewModel
         "0.0001",
         "99999.9999",
         ParseLimitsInInvariantCulture = true,
-        ErrorMessage = "Количество должно быть больше нуля.")]
+        ErrorMessage = "Quantity must be greater than zero.")]
     public decimal Quantity { get; set; }
 
     /// <summary>
@@ -37,6 +37,6 @@ public class InventoryDocumentLineEditViewModel
         "0",
         "99999.9999",
         ParseLimitsInInvariantCulture = true,
-        ErrorMessage = "Стоимость не может быть отрицательной.")]
+        ErrorMessage = "Unit cost cannot be negative.")]
     public decimal UnitCost { get; set; }
 }

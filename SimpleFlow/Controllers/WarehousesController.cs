@@ -46,7 +46,7 @@ public class WarehousesController(
             return View(warehouse);
         }
 
-        TempData["SuccessMessage"] = "Склад успешно создан.";
+        TempData["SuccessMessage"] = "Warehouse created successfully.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -87,7 +87,7 @@ public class WarehousesController(
             return View(warehouse);
         }
 
-        TempData["SuccessMessage"] = "Изменения склада сохранены.";
+        TempData["SuccessMessage"] = "Warehouse changes saved.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -116,7 +116,7 @@ public class WarehousesController(
             context.Remove(warehouse);
             var result = await databaseOperation.SaveChangesAsync();
             TempData[result.Succeeded ? "SuccessMessage" : "ErrorMessage"] = result.Succeeded
-                ? "Склад удалён."
+                ? "Warehouse deleted."
                 : result.ErrorMessage;
         }
 

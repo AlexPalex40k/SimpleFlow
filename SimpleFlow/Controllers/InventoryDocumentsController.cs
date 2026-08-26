@@ -129,7 +129,7 @@ public class InventoryDocumentsController(
             return View(model);
         }
 
-        TempData["SuccessMessage"] = "Складской документ создан.";
+        TempData["SuccessMessage"] = "Inventory document created.";
 
         return RedirectToAction(
             nameof(Details),
@@ -153,7 +153,7 @@ public class InventoryDocumentsController(
 
         if (document.Status != InventoryDocumentStatus.Draft)
         {
-            TempData["ErrorMessage"] = "Изменять можно только черновики.";
+            TempData["ErrorMessage"] = "Only draft documents can be edited.";
 
             return RedirectToAction(
                 nameof(Details),
@@ -189,7 +189,7 @@ public class InventoryDocumentsController(
 
         if (document.Status != InventoryDocumentStatus.Draft)
         {
-            TempData["ErrorMessage"] = "Изменять можно только черновики.";
+            TempData["ErrorMessage"] = "Only draft documents can be edited.";
 
             return RedirectToAction(
                 nameof(Details),
@@ -238,7 +238,7 @@ public class InventoryDocumentsController(
             return View(model);
         }
 
-        TempData["SuccessMessage"] = "Изменения складского документа сохранены.";
+        TempData["SuccessMessage"] = "Inventory document changes saved.";
 
         return RedirectToAction(
             nameof(Details),
@@ -261,7 +261,7 @@ public class InventoryDocumentsController(
 
         if (document.Status != InventoryDocumentStatus.Draft)
         {
-            TempData["ErrorMessage"] = "Удалять можно только черновики.";
+            TempData["ErrorMessage"] = "Only draft documents can be deleted.";
 
             return RedirectToAction(
                 nameof(Details),
@@ -289,7 +289,7 @@ public class InventoryDocumentsController(
 
         if (document.Status != InventoryDocumentStatus.Draft)
         {
-            TempData["ErrorMessage"] = "Удалять можно только черновики.";
+            TempData["ErrorMessage"] = "Only draft documents can be deleted.";
 
             return RedirectToAction(
                 nameof(Details),
@@ -305,7 +305,7 @@ public class InventoryDocumentsController(
                 ? "SuccessMessage"
                 : "ErrorMessage"] =
             result.Succeeded
-                ? "Складской документ удалён."
+                ? "Inventory document deleted."
                 : result.ErrorMessage;
 
         return RedirectToAction(nameof(Index));
@@ -332,7 +332,7 @@ public class InventoryDocumentsController(
                 ? "SuccessMessage"
                 : "ErrorMessage"] =
             result.Succeeded
-                ? "Складской документ успешно проведён."
+                ? "Inventory document posted successfully."
                 : result.ErrorMessage;
 
         return RedirectToAction(
@@ -348,7 +348,7 @@ public class InventoryDocumentsController(
         {
             ModelState.AddModelError(
                 nameof(model.OperationType),
-                "Выбран неизвестный тип складской операции.");
+                "The selected inventory operation type is unknown.");
 
             return;
         }
@@ -359,14 +359,14 @@ public class InventoryDocumentsController(
         {
             ModelState.AddModelError(
                 nameof(model.DocumentNumber),
-                "Документ с таким номером уже существует.");
+                "A document with this number already exists.");
         }
 
         if (model.Lines.Count == 0)
         {
             ModelState.AddModelError(
                 nameof(model.Lines),
-                "Добавьте хотя бы одну строку.");
+                "Add at least one document line.");
         }
 
         if (model.Lines
@@ -375,7 +375,7 @@ public class InventoryDocumentsController(
         {
             ModelState.AddModelError(
                 nameof(model.Lines),
-                "Один товар нельзя добавлять в документ несколько раз.");
+                "The same product cannot be added to a document more than once.");
         }
 
         var productIds = model.Lines
@@ -398,7 +398,7 @@ public class InventoryDocumentsController(
 
             ModelState.AddModelError(
                 $"Lines[{lineIndex}].ProductId",
-                "Выбранный товар не существует или неактивен.");
+                "The selected product does not exist or is inactive.");
         }
 
         var warehouseIds = new[]
@@ -423,7 +423,7 @@ public class InventoryDocumentsController(
         {
             ModelState.AddModelError(
                 nameof(model.SourceWarehouseId),
-                "Исходный склад не существует или неактивен.");
+                "The source warehouse does not exist or is inactive.");
         }
 
         if (model.DestinationWarehouseId.HasValue &&
@@ -431,7 +431,7 @@ public class InventoryDocumentsController(
         {
             ModelState.AddModelError(
                 nameof(model.DestinationWarehouseId),
-                "Склад назначения не существует или неактивен.");
+                "The destination warehouse does not exist or is inactive.");
         }
 
         switch (model.OperationType)
@@ -447,7 +447,7 @@ public class InventoryDocumentsController(
                 {
                     ModelState.AddModelError(
                         nameof(model.SourceWarehouseId),
-                        "Выберите исходный склад.");
+                        "Select a source warehouse.");
                 }
 
                 model.DestinationWarehouseId = null;
@@ -459,14 +459,14 @@ public class InventoryDocumentsController(
                 {
                     ModelState.AddModelError(
                         string.Empty,
-                        "Выберите исходный склад и склад назначения.");
+                        "Select both a source and a destination warehouse.");
                 }
                 else if (model.SourceWarehouseId ==
                          model.DestinationWarehouseId)
                 {
                     ModelState.AddModelError(
                         nameof(model.DestinationWarehouseId),
-                        "Склады должны отличаться.");
+                        "The source and destination warehouses must be different.");
                 }
 
                 break;
@@ -474,7 +474,7 @@ public class InventoryDocumentsController(
             case InventoryOperationType.Adjustment:
                 ModelState.AddModelError(
                     nameof(model.OperationType),
-                    "Корректировка пока не поддерживается.");
+                    "Inventory adjustments are not supported yet.");
                 break;
         }
     }

@@ -29,28 +29,28 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                "Складской документ не найден.");
+                "The inventory document was not found.");
         }
 
         if (document.Status == InventoryDocumentStatus.Posted)
         {
             return new DatabaseOperationResult(
                 false,
-                "Складской документ уже проведён.");
+                "The inventory document has already been posted.");
         }
 
         if (document.Status == InventoryDocumentStatus.Cancelled)
         {
             return new DatabaseOperationResult(
                 false,
-                "Отменённый складской документ нельзя провести.");
+                "A cancelled inventory document cannot be posted.");
         }
 
         if (document.Lines.Count == 0)
         {
             return new DatabaseOperationResult(
                 false,
-                "Складской документ не содержит товаров.");
+                "The inventory document does not contain any products.");
         }
 
         var validationResult = ValidateDocument(document);
@@ -97,7 +97,7 @@ public sealed class InventoryPostingService(
 
             return new DatabaseOperationResult(
                 false,
-                "Остаток был изменён другим пользователем. Обновите страницу и повторите операцию.");
+                "The inventory balance was changed by another user. Refresh the page and try again.");
         }
         catch (DbUpdateException exception)
         {
@@ -111,7 +111,7 @@ public sealed class InventoryPostingService(
 
             return new DatabaseOperationResult(
                 false,
-                "Не удалось провести складской документ.");
+                "The inventory document could not be posted.");
         }
     }
 
@@ -122,7 +122,7 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                "Количество товара должно быть больше нуля.");
+                "Product quantity must be greater than zero.");
         }
 
         switch (document.OperationType)
@@ -132,14 +132,14 @@ public sealed class InventoryPostingService(
                 {
                     return new DatabaseOperationResult(
                         false,
-                        "Для поступления необходимо выбрать склад назначения.");
+                        "A destination warehouse is required for a receipt.");
                 }
 
                 if (document.Lines.Any(line => line.UnitCost < 0))
                 {
                     return new DatabaseOperationResult(
                         false,
-                        "Стоимость товара не может быть отрицательной.");
+                        "Product unit cost cannot be negative.");
                 }
 
                 break;
@@ -151,7 +151,7 @@ public sealed class InventoryPostingService(
                 {
                     return new DatabaseOperationResult(
                         false,
-                        "Для операции необходимо выбрать исходный склад.");
+                        "A source warehouse is required for this operation.");
                 }
 
                 break;
@@ -162,7 +162,7 @@ public sealed class InventoryPostingService(
                 {
                     return new DatabaseOperationResult(
                         false,
-                        "Для перемещения необходимо выбрать оба склада.");
+                        "Both warehouses are required for a transfer.");
                 }
 
                 if (document.SourceWarehouseId ==
@@ -170,7 +170,7 @@ public sealed class InventoryPostingService(
                 {
                     return new DatabaseOperationResult(
                         false,
-                        "Исходный склад и склад назначения должны отличаться.");
+                        "The source and destination warehouses must be different.");
                 }
 
                 break;
@@ -178,12 +178,12 @@ public sealed class InventoryPostingService(
             case InventoryOperationType.Adjustment:
                 return new DatabaseOperationResult(
                     false,
-                    "Правила корректировки остатков пока не настроены.");
+                    "Inventory adjustment rules have not been configured yet.");
 
             default:
                 return new DatabaseOperationResult(
                     false,
-                    "Неизвестный тип складской операции.");
+                    "The inventory operation type is unknown.");
         }
 
         return new DatabaseOperationResult(true);
@@ -217,7 +217,7 @@ public sealed class InventoryPostingService(
             _ => Task.FromResult(
                 new DatabaseOperationResult(
                     false,
-                    "Данный тип складской операции пока не поддерживается."))
+                    "This inventory operation type is not supported yet."))
         };
     }
 
@@ -300,7 +300,7 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"На складе отсутствует остаток товара с ID {line.ProductId}.");
+                $"No inventory balance exists for product ID {line.ProductId} in the warehouse.");
         }
 
         var quantityAvailable =
@@ -310,8 +310,8 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"Недостаточно доступного товара с ID {line.ProductId}. " +
-                $"Доступно: {quantityAvailable:N4}.");
+                $"There is not enough available stock for product ID {line.ProductId}. " +
+                $"Available: {quantityAvailable:N4}.");
         }
 
         balance.QuantityOnHand -= line.Quantity;
@@ -338,7 +338,7 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"На складе отсутствует остаток товара с ID {line.ProductId}.");
+                $"No inventory balance exists for product ID {line.ProductId} in the warehouse.");
         }
 
         var quantityAvailable =
@@ -348,8 +348,8 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"Недостаточно доступного товара для резервирования. " +
-                $"Доступно: {quantityAvailable:N4}.");
+                $"There is not enough available stock to create the reservation. " +
+                $"Available: {quantityAvailable:N4}.");
         }
 
         balance.QuantityReserved += line.Quantity;
@@ -374,15 +374,15 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"Остаток товара с ID {line.ProductId} не найден.");
+                $"The inventory balance for product ID {line.ProductId} was not found.");
         }
 
         if (balance.QuantityReserved < line.Quantity)
         {
             return new DatabaseOperationResult(
                 false,
-                $"Нельзя снять резерв {line.Quantity:N4}. " +
-                $"Зарезервировано: {balance.QuantityReserved:N4}.");
+                $"Cannot release {line.Quantity:N4} from the reservation. " +
+                $"Reserved: {balance.QuantityReserved:N4}.");
         }
 
         balance.QuantityReserved -= line.Quantity;
@@ -408,7 +408,7 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"На исходном складе отсутствует товар с ID {line.ProductId}.");
+                $"No inventory balance exists for product ID {line.ProductId} in the source warehouse.");
         }
 
         var quantityAvailable =
@@ -419,8 +419,8 @@ public sealed class InventoryPostingService(
         {
             return new DatabaseOperationResult(
                 false,
-                $"Недостаточно доступного товара для перемещения. " +
-                $"Доступно: {quantityAvailable:N4}.");
+                $"There is not enough available stock for the transfer. " +
+                $"Available: {quantityAvailable:N4}.");
         }
 
         var transferCost = sourceBalance.AverageCost;
